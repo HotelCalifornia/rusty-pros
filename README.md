@@ -3,6 +3,13 @@ expose [purduesigbots/pros](https://github.com/purduesigbots/pros) API to rust u
 
 # get bindings
 currently, you have to run `cargo build` to generate the bindings which are written to `$OUT_DIR/pros.rs` (`$OUT_DIR` is a cargo environment variable).
+## step-by-step
+1. make sure you have Clang 3.9+ installed
+2. run `cargo build`
+   cargo will start downloading and compiling rust-bindgen and its dependencies for you
+3. run `cargo test` to make sure everything works (TODO @myself: write some tests maybe?)
+
+(I did the more complicated stuff already)
 
 # lib.rs
 ```rust
