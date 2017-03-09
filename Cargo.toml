@@ -1,0 +1,8 @@
+[package]
+name = "rusty-pros"
+version = "0.1.0"
+authors = ["Alex Brooke <akb.sbc@gmail.com>"]
+build = "build.rs"
+
+[build-dependencies]
+bindgen = "0.22.1"
