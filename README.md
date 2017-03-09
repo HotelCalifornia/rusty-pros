@@ -1,5 +1,5 @@
 # rusty-pros [(very) WIP]
-expose [PROS](https://github.com/purduesigbots/pros) API to rust using [servo/rust-bindgen](https://github.com/servo/rust-bindgen)
+expose [purduesigbots/pros](https://github.com/purduesigbots/pros) API to rust using [servo/rust-bindgen](https://github.com/servo/rust-bindgen)
 
 # get bindings
 currently, you have to run `cargo build` to generate the bindings which are written to `$OUT_DIR/pros.rs` (`$OUT_DIR` is a cargo environment variable).
