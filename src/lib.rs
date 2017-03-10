@@ -117,4 +117,19 @@ pub fn speaker_init() {
 // pub fn speaker_play_array(songs: &[&str, 3]) {
     // TODO: fuckkkk
 // }
-
+pub fn speaker_play_RTTTL(song: &str) {
+    unsafe {
+        speakerPlayRTTTL(convert_string(song))
+    }
+}
+pub fn speaker_shutdown() {
+    unsafe {
+        speakerShutdown()
+    }
+}
+pub fn ime_initialize_all() -> u32 {
+    unsafe {
+        imeInitializeAll()
+    }
+}
+//pub fn ime_get(addr: u8, )
