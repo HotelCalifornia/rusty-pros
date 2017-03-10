@@ -114,12 +114,17 @@ pub fn speaker_init() {
         speakerInit()
     }
 }
-// pub fn speaker_play_array(songs: &[&str, 3]) {
-    // TODO: fuckkkk
-// }
+pub fn speaker_play_array(songs: Vec<&str>) {
+    let mut songs_p: Vec<_> = songs.iter()
+        .map(|song| convert_string(song))
+        .collect();
+    unsafe {
+        speakerPlayArray(songs_p.as_mut_ptr())
+    }
+}
 pub fn speaker_play_RTTTL(song: &str) {
     unsafe {
-        speakerPlayRTTTL(convert_string(song))
+        speakerPlayRtttl(convert_string(song))
     }
 }
 pub fn speaker_shutdown() {
@@ -132,4 +137,14 @@ pub fn ime_initialize_all() -> u32 {
         imeInitializeAll()
     }
 }
-//pub fn ime_get(addr: u8, )
+
+pub fn ime_get(addr: u8) -> i32 {
+    let v: &mut i32 = 0;
+    unsafe {
+        imeGet(addr, v);
+        *v
+    }
+}
+
+
+
