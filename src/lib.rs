@@ -138,11 +138,15 @@ pub fn ime_initialize_all() -> u32 {
     }
 }
 
-pub fn ime_get(addr: u8) -> i32 {
-    let v: &mut i32 = 0;
-    unsafe {
-        imeGet(addr, v);
-        *v
+pub fn ime_get(addr: u8) -> Option<i32> {
+    let mut v = 0;
+    let r = unsafe {
+        imeGet(addr, &mut v)
+    };
+    if r {
+        Some(v)
+    } else {
+        None
     }
 }
 
