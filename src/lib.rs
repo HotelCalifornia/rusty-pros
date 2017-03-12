@@ -246,5 +246,66 @@ pub fn i2c_read_register(addr: u8, reg: u8, count: u16) -> Option<Vec<u8>> {
         None
     }
 }
-
+pub fn i2c_write(addr: u8, mut data: Vec<u8>, count: u16) -> bool {
+    unsafe {
+        i2cWrite(addr, data.as_mut_ptr(), count)
+    }
+}
+pub fn i2c_write_register(addr: u8, reg: u8, val: u16) -> bool {
+    unsafe {
+        i2cWriteRegister(addr, reg, val)
+    }
+}
+pub fn usart_init(mut usart: FILE, baud: u32, flags: u32) {
+    unsafe {
+        usartInit(&mut usart, baud, flags)
+    }
+}
+pub fn usart_shutdown(mut usart: FILE) {
+    unsafe {
+        usartShutdown(&mut usart)
+    }
+}
+pub fn f_close(mut stream: FILE) {
+    unsafe {
+        fclose(&mut stream)
+    }
+}
+pub fn f_count(mut stream: FILE) -> i32 {
+    unsafe {
+        fcount(&mut stream)
+    }
+}/*
+pub fn f_delete(file: &str) -> bool {
+    let f: Vec<_> = file.split(|c| c = c as i8).collect();
+    let r = unsafe {
+        fdelete(f.as_ptr())
+    };
+    r == 0
+}*/
+pub fn f_eof(mut stream: FILE) -> bool {
+    let r = unsafe {
+        feof(&mut stream)
+    };
+    r != 0
+}
+pub fn f_flush(mut stream: FILE) -> bool {
+    let r = unsafe {
+        fflush(&mut stream)
+    };
+    r == 0
+}
+pub fn f_getc(mut stream: FILE) -> i32 {
+    unsafe {
+        fgetc(&mut stream)
+    }
+}
+/*
+pub fn f_gets(len: i32, mut stream: FILE) -> CString {
+    let string = CString::default().unwrap();
+    unsafe {
+        fgets(string.as_mut_ptr(), len, &mut stream)
+    };
+    string
+}*/
 
