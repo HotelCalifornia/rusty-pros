@@ -137,7 +137,6 @@ pub fn ime_initialize_all() -> u32 {
         imeInitializeAll()
     }
 }
-
 pub fn ime_get(addr: u8) -> Option<i32> {
     let mut v = 0;
     let r = unsafe {
@@ -149,6 +148,103 @@ pub fn ime_get(addr: u8) -> Option<i32> {
         None
     }
 }
-
+pub fn ime_get_velocity(addr: u8) -> Option<i32> {
+    let mut v = 0;
+    let r = unsafe {
+        imeGetVelocity(addr, &mut v)
+    };
+    if r {
+        Some(v)
+    } else {
+        None
+    }
+}
+pub fn ime_reset(addr: u8) -> bool {
+    unsafe {
+        imeReset(addr)
+    }
+}
+pub fn ime_shutdown() {
+    unsafe {
+        imeShutdown()
+    }
+}
+pub fn gyro_get(gyro: Gyro) -> i32 {
+    unsafe {
+        gyroGet(gyro)
+    }
+}
+pub fn gyro_init(port: u8, mult: u16) -> Gyro {
+    unsafe {
+        gyroInit(port, mult)
+    }
+}
+pub fn gyro_reset(gyro: Gyro) {
+    unsafe {
+        gyroReset(gyro)
+    }
+}
+pub fn gyro_shutdown(gyro: Gyro) {
+    unsafe {
+        gyroShutdown(gyro)
+    }
+}
+pub fn encoder_get(enc: Encoder) -> i32 {
+    unsafe {
+        encoderGet(enc)
+    }
+}
+pub fn encoder_init(port_top: u8, port_bot: u8, reverse: bool) -> Encoder {
+    unsafe {
+        encoderInit(port_top, port_bot, reverse)
+    }
+}
+pub fn encoder_reset(enc: Encoder) {
+    unsafe {
+        encoderReset(enc)
+    }
+}
+pub fn encoder_shutdown(enc: Encoder) {
+    unsafe {
+        encoderShutdown(enc)
+    }
+}
+pub fn ultrasonic_get(ult: Ultrasonic) -> i32 {
+    unsafe {
+        ultrasonicGet(ult)
+    }
+}
+pub fn ultrasonic_init(port_echo: u8, port_ping: u8) -> Ultrasonic {
+    unsafe {
+        ultrasonicInit(port_echo, port_ping)
+    }
+}
+pub fn ultrasonic_shutdown(ult: Ultrasonic) {
+    unsafe {
+        ultrasonicShutdown(ult)
+    }
+}
+pub fn i2c_read(addr: u8, count: u16) -> Option<Vec<u8>> {
+    let mut data: Vec<u8> = Default::default();
+    let r = unsafe {
+        i2cRead(addr, data.as_mut_ptr(), count)
+    };
+    if r {
+        Some(data)
+    } else {
+        None
+    }
+}
+pub fn i2c_read_register(addr: u8, reg: u8, count: u16) -> Option<Vec<u8>> {
+    let mut data: Vec<u8> = Default::default();
+    let r = unsafe {
+        i2cReadRegister(addr, reg, data.as_mut_ptr(), count)
+    };
+    if r {
+        Some(data)
+    } else {
+        None
+    }
+}
 
 
