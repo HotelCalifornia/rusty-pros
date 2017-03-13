@@ -312,5 +312,11 @@ pub fn f_gets<'s>(len: i32, mut stream: FILE) -> &'s str {
     };
     string
 }
-//pub fn f_open(file: )
+pub fn f_open(file: &str, mode: &str) -> *mut FILE {
+    let f: Vec<i8> = file.as_bytes().iter().map(|x| *x as i8).collect();
+    let m: Vec<i8> = mode.as_bytes().iter().map(|x| *x as i8).collect();
+    unsafe {
+        fopen(f.as_ptr(), m.as_ptr())
+    }
+}
 
