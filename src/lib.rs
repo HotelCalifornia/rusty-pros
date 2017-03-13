@@ -295,16 +295,22 @@ pub fn f_flush(mut stream: FILE) -> bool {
     };
     r == 0
 }
-pub fn f_getc(mut stream: FILE) -> i32 {
-    unsafe {
+pub fn f_getc(mut stream: FILE) -> Option<u8> {
+    let r = unsafe {
         fgetc(&mut stream)
+    };
+    if r > 0 {
+        Some(r as u8)
+    } else {
+        None
     }
 }
-pub fn f_gets(len: i32, mut stream: FILE) -> String {
-    let string: String = String::default();
+pub fn f_gets<'s>(len: i32, mut stream: FILE) -> &'s str {
+    let string: &'s str = Default::default();
     unsafe {
         fgets(string.as_ptr() as *mut i8, len, &mut stream)
     };
     string
 }
+//pub fn f_open(file: )
 
