@@ -275,14 +275,14 @@ pub fn f_count(mut stream: FILE) -> i32 {
     unsafe {
         fcount(&mut stream)
     }
-}/*
+}
 pub fn f_delete(file: &str) -> bool {
-    let f: Vec<_> = file.split(|c| c = c as i8).collect();
+    let f: Vec<i8> = file.as_bytes().iter().map(|x| *x as i8).collect();
     let r = unsafe {
         fdelete(f.as_ptr())
     };
     r == 0
-}*/
+}
 pub fn f_eof(mut stream: FILE) -> bool {
     let r = unsafe {
         feof(&mut stream)
@@ -300,12 +300,11 @@ pub fn f_getc(mut stream: FILE) -> i32 {
         fgetc(&mut stream)
     }
 }
-/*
-pub fn f_gets(len: i32, mut stream: FILE) -> CString {
-    let string = CString::default().unwrap();
+pub fn f_gets(len: i32, mut stream: FILE) -> String {
+    let string: String = String::default();
     unsafe {
-        fgets(string.as_mut_ptr(), len, &mut stream)
+        fgets(string.as_ptr() as *mut i8, len, &mut stream)
     };
     string
-}*/
+}
 
