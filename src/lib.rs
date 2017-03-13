@@ -277,9 +277,8 @@ pub fn f_count(mut stream: FILE) -> i32 {
     }
 }
 pub fn f_delete(file: &str) -> bool {
-    let f: Vec<i8> = file.as_bytes().iter().map(|x| *x as i8).collect();
     let r = unsafe {
-        fdelete(f.as_ptr())
+        fdelete(convert_string(file))
     };
     r == 0
 }
@@ -313,10 +312,43 @@ pub fn f_gets<'s>(len: i32, mut stream: FILE) -> &'s str {
     string
 }
 pub fn f_open(file: &str, mode: &str) -> *mut FILE {
-    let f: Vec<i8> = file.as_bytes().iter().map(|x| *x as i8).collect();
-    let m: Vec<i8> = mode.as_bytes().iter().map(|x| *x as i8).collect();
     unsafe {
-        fopen(f.as_ptr(), m.as_ptr())
+        fopen(convert_string(file), convert_string(mode))
     }
 }
+pub fn f_print(string: &str, mut stream: FILE) {
+    unsafe {
+        fprint(convert_string(string), &mut stream)
+    }
+}
+pub fn f_putc(val: u8, mut stream: FILE) -> u8 {
+    let r = unsafe {
+        fputc(val as i32, &mut stream)
+    };
+    r as u8
+}
+pub fn f_puts(string: &str, mut stream: FILE) -> i32 {
+    unsafe {
+        fputs(convert_string(string), &mut stream)
+    } 
+}
+pub fn f_read<'s>(count: usize, mut stream: FILE) -> (&'s str, usize) {
+    let string: &'s str = Default::default();
+    let r = unsafe {
+        fread(string.as_ptr() as *mut u8, 1, count, &mut stream)
+    };
+    (string, r)
+}
+pub fn f_seek(mut stream: FILE, offset: i64, origin: i32) -> bool {
+    let r = unsafe {
+        fseek(&mut stream, offset, origin)
+    };
+    r == 0
+}
+pub fn f_tell(mut stream: FILE) -> i64 {
+    unsafe {
+        ftell(&mut stream)
+    }
+}
+
 
