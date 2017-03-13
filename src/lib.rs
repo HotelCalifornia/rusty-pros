@@ -381,9 +381,27 @@ pub fn putss(string: &str) -> i32 {
         puts(convert_string(string))
     }
 }
+// for my sanity, I'm only going to implement these two, and I'm not doing any format-checking so
+// you better be sure your format strings are right
 macro_rules! f_printf(
     ($stream:expr, $fmt:expr $(, $arg:expr)*) => {
-        unsafe { fprintf(mut $stream, convert_string($fmt) $(,$arg)*) }
+        unsafe { fprintf(mut $stream, convert_string($fmt) $(, $arg)*) }
     }
 );
+macro_rules! s_printf(
+    ($buf:expr, $fmt:expr, $(, $arg:expr)*) => {
+        unsafe { sprintf(mut convert_string($buf), convert_string($fmt) $(, $arg)*) }
+    }
+);
+pub fn lcd_clear(mut port: FILE) {
+    unsafe {
+        lcdClear(&mut port)
+    }
+}
+pub fn lcd_init(mut port: FILE) {
+    unsafe {
+        lcdInit(&mut port)
+    }
+}
+
 
