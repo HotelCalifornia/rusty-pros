@@ -298,7 +298,7 @@ pub fn f_getc(mut stream: FILE) -> Option<u8> {
     let r = unsafe {
         fgetc(&mut stream)
     };
-    if r > 0 {
+    if r >= 0 {
         Some(r as u8)
     } else {
         None
@@ -335,7 +335,7 @@ pub fn f_puts(string: &str, mut stream: FILE) -> i32 {
 pub fn f_read<'s>(count: usize, mut stream: FILE) -> (&'s str, usize) {
     let string: &'s str = Default::default();
     let r = unsafe {
-        fread(string.as_ptr() as *mut u8, 1, count, &mut stream)
+        fread(string.as_ptr() as *mut std::os::raw::c_void, 1, count, &mut stream)
     };
     (string, r)
 }
@@ -350,5 +350,40 @@ pub fn f_tell(mut stream: FILE) -> i64 {
         ftell(&mut stream)
     }
 }
-
+pub fn f_write(string: &str, mut stream: FILE) -> usize {
+    unsafe {
+        fwrite(convert_string(string) as *mut std::os::raw::c_void, 1, string.len(), &mut stream)
+    }
+}
+pub fn get_char() -> Option<u8> {
+    let r = unsafe {
+        getchar()
+    };
+    if r >= 0 {
+        Some(r as u8)
+    } else {
+        None
+    }
+}
+pub fn prints(string: &str) {
+    unsafe {
+        print(convert_string(string))
+    }
+}
+pub fn put_char(val: u8) -> u8 {
+    let r = unsafe {
+        putchar(val as i32)
+    };
+    r as u8
+}
+pub fn putss(string: &str) -> i32 {
+    unsafe {
+        puts(convert_string(string))
+    }
+}
+macro_rules! f_printf(
+    ($stream:expr, $fmt:expr $(, $arg:expr)*) => {
+        unsafe { fprintf(mut $stream, convert_string($fmt) $(,$arg)*) }
+    }
+);
 
