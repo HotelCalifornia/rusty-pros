@@ -256,22 +256,22 @@ pub fn i2c_write_register(addr: u8, reg: u8, val: u16) -> bool {
         i2cWriteRegister(addr, reg, val)
     }
 }
-pub fn usart_init(mut usart: FILE, baud: u32, flags: u32) {
+pub fn usart_init(mut usart: PROS_FILE, baud: u32, flags: u32) {
     unsafe {
         usartInit(&mut usart, baud, flags)
     }
 }
-pub fn usart_shutdown(mut usart: FILE) {
+pub fn usart_shutdown(mut usart: PROS_FILE) {
     unsafe {
         usartShutdown(&mut usart)
     }
 }
-pub fn f_close(mut stream: FILE) {
+pub fn f_close(mut stream: PROS_FILE) {
     unsafe {
         fclose(&mut stream)
     }
 }
-pub fn f_count(mut stream: FILE) -> i32 {
+pub fn f_count(mut stream: PROS_FILE) -> i32 {
     unsafe {
         fcount(&mut stream)
     }
@@ -282,19 +282,19 @@ pub fn f_delete(file: &str) -> bool {
     };
     r == 0
 }
-pub fn f_eof(mut stream: FILE) -> bool {
+pub fn f_eof(mut stream: PROS_FILE) -> bool {
     let r = unsafe {
         feof(&mut stream)
     };
     r != 0
 }
-pub fn f_flush(mut stream: FILE) -> bool {
+pub fn f_flush(mut stream: PROS_FILE) -> bool {
     let r = unsafe {
         fflush(&mut stream)
     };
     r == 0
 }
-pub fn f_getc(mut stream: FILE) -> Option<u8> {
+pub fn f_getc(mut stream: PROS_FILE) -> Option<u8> {
     let r = unsafe {
         fgetc(&mut stream)
     };
@@ -304,53 +304,53 @@ pub fn f_getc(mut stream: FILE) -> Option<u8> {
         None
     }
 }
-pub fn f_gets<'s>(len: i32, mut stream: FILE) -> &'s str {
+pub fn f_gets<'s>(len: i32, mut stream: PROS_FILE) -> &'s str {
     let string: &'s str = Default::default();
     unsafe {
         fgets(string.as_ptr() as *mut i8, len, &mut stream)
     };
     string
 }
-pub fn f_open(file: &str, mode: &str) -> *mut FILE {
+pub fn f_open(file: &str, mode: &str) -> *mut PROS_FILE {
     unsafe {
         fopen(convert_string(file), convert_string(mode))
     }
 }
-pub fn f_print(string: &str, mut stream: FILE) {
+pub fn f_print(string: &str, mut stream: PROS_FILE) {
     unsafe {
         fprint(convert_string(string), &mut stream)
     }
 }
-pub fn f_putc(val: u8, mut stream: FILE) -> u8 {
+pub fn f_putc(val: u8, mut stream: PROS_FILE) -> u8 {
     let r = unsafe {
         fputc(val as i32, &mut stream)
     };
     r as u8
 }
-pub fn f_puts(string: &str, mut stream: FILE) -> i32 {
+pub fn f_puts(string: &str, mut stream: PROS_FILE) -> i32 {
     unsafe {
         fputs(convert_string(string), &mut stream)
     } 
 }
-pub fn f_read<'s>(count: usize, mut stream: FILE) -> (&'s str, usize) {
+pub fn f_read<'s>(count: usize, mut stream: PROS_FILE) -> (&'s str, usize) {
     let string: &'s str = Default::default();
     let r = unsafe {
         fread(string.as_ptr() as *mut std::os::raw::c_void, 1, count, &mut stream)
     };
     (string, r)
 }
-pub fn f_seek(mut stream: FILE, offset: i64, origin: i32) -> bool {
+pub fn f_seek(mut stream: PROS_FILE, offset: i64, origin: i32) -> bool {
     let r = unsafe {
         fseek(&mut stream, offset, origin)
     };
     r == 0
 }
-pub fn f_tell(mut stream: FILE) -> i64 {
+pub fn f_tell(mut stream: PROS_FILE) -> i64 {
     unsafe {
         ftell(&mut stream)
     }
 }
-pub fn f_write(string: &str, mut stream: FILE) -> usize {
+pub fn f_write(string: &str, mut stream: PROS_FILE) -> usize {
     unsafe {
         fwrite(convert_string(string) as *mut std::os::raw::c_void, 1, string.len(), &mut stream)
     }
@@ -393,12 +393,12 @@ macro_rules! s_printf(
         unsafe { sprintf(mut convert_string($buf), convert_string($fmt) $(, $arg)*) }
     }
 );
-pub fn lcd_clear(mut port: FILE) {
+pub fn lcd_clear(mut port: PROS_FILE) {
     unsafe {
         lcdClear(&mut port)
     }
 }
-pub fn lcd_init(mut port: FILE) {
+pub fn lcd_init(mut port: PROS_FILE) {
     unsafe {
         lcdInit(&mut port)
     }
